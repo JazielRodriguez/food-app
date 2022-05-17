@@ -1,8 +1,8 @@
 import LoginForm from "../components/LoginForm"
 
-const LogInPage = () => {
+const RegisterPage  = () => {
   return (
     <LoginForm />
   )
 }
-export default LogInPage
+export default RegisterPage
