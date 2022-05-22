@@ -20,3 +20,10 @@
   align-items: center;
   padding: 2rem;
 }
+.mobile-menu-btn {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 15;
+  cursor: pointer;
+}

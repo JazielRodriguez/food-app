@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
 import styles from "./Header.module.css";
+import { Link } from "wouter";
 import { useMediaQuery } from "react-responsive";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
@@ -10,7 +11,7 @@ const Header = () => {
   const isLogged = useSelector((state) => state.auth.isAuthenticated);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);
   const mobileMenuHandler = () => {
-    setMobileMenuIsVisible(!mobileMenuIsVisible);
+    setMobileMenuIsVisible((prev) => !prev);
   };
   const isTabletOrDesktop = useMediaQuery({
     query: "(min-width: 768px)",
@@ -18,7 +19,12 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <Container className={styles["header-content"]}>
-        <Nav isTabletOrDesktop={isTabletOrDesktop} isLogged={isLogged} />
+        <Link href="/">
+          <a>
+            <h2>Food App</h2>
+          </a>
+        </Link>
+        {isTabletOrDesktop && <Nav isLogged={isLogged} />}
         {!isTabletOrDesktop && (
           <div
             className={styles["mobile-btn-menu"]}
@@ -29,7 +35,12 @@ const Header = () => {
             <span></span>
           </div>
         )}
-        {mobileMenuIsVisible && <MobileMenu />}
+        {mobileMenuIsVisible && (
+          <MobileMenu
+            mobileMenuHandler={mobileMenuHandler}
+            isLogged={isLogged}
+          />
+        )}
       </Container>
     </header>
   );

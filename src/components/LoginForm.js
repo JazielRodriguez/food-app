@@ -23,7 +23,7 @@ const LoginForm = () => {
   const confirmPasswordHandler = (e) => {
     setConfirmPassword(e.target.value);
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const createUser = {
       name,
@@ -31,7 +31,15 @@ const LoginForm = () => {
       password,
       confirmPassword,
     };
-    console.log(createUser);
+    const response = await fetch("http://localhost:8000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(createUser),
+    });
+    const data = await response.json();
+    console.log(data);
   };
   const loginHandler = () => {
     dispatch(authActions.setIsAuthenticated(true));
