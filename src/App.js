@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage";
 import MenuPage from "./pages/MenuPage";
 import RegisterPage from "./pages/RegisterPage";
 import store from "./store/index";
+import Cart from "./pages/Cart";
+import NewFood from "./pages/NewFood";
 const App = () => {
   return (
     <>
@@ -18,6 +20,12 @@ const App = () => {
         </Route>
         <Route path="/register">
           <RegisterPage />
+        </Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
+        <Route path="/admin/new-food">
+          <NewFood />
         </Route>
       </Provider>
     </>

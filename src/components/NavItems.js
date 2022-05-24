@@ -13,6 +13,9 @@ const NavItems = ({ isLogged }) => {
       <Link href="/menu">
         <a>Menu</a>
       </Link>
+      <Link href="/cart">
+        <a>Cart</a>
+      </Link>
       {isLogged ? (
         <Link href="/" onClick={logoutHandler}>
           <a>Log Out</a>

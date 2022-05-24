@@ -1,6 +1,11 @@
+import Container from "../components/Container";
+import FoodList from "../components/FoodList";
 const MenuPage = () => {
   return (
-    <h1>Menu</h1>
-  )
-}
-export default MenuPage
+    <Container>
+      <h1>Menu</h1>
+      <FoodList />
+    </Container>
+  );
+};
+export default MenuPage;
