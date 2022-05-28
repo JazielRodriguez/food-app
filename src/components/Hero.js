@@ -1,5 +1,6 @@
-import Container from "./Container";
 import styles from "./Hero.module.css";
+
+import Container from "./Container";
 const Hero = () => {
   return (
     <div className={styles.hero}>

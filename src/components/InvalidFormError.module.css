@@ -1,0 +1,22 @@
+.error {
+  position: fixed;
+  bottom: 2.4rem;
+  right: 2.4rem;
+  background-color: rgb(219, 57, 57);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.error p:first-child {
+  border-radius: 10px;
+  background-color: #fff;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  color: #000;
+  cursor: pointer;
+}
+span {
+  color: #000;
+  font-weight: 700;
+}

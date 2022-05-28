@@ -1,4 +1,5 @@
 import styles from './FoodList.module.css';
+
 import FoodCard from "./FoodCard";
 import pizza from "../assets/pizza.jpeg";
 import burger from "../assets/burger.jpeg";

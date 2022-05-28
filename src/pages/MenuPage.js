@@ -1,5 +1,6 @@
 import Container from "../components/Container";
 import FoodList from "../components/FoodList";
+
 const MenuPage = () => {
   return (
     <Container>

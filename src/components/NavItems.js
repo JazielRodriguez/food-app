@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Link } from "wouter";
 import { useDispatch } from "react-redux";
+
 import { authActions } from "../store/auth-state";
+
 const NavItems = ({ isLogged }) => {
   const dispatch = useDispatch();
   const logoutHandler = () => {

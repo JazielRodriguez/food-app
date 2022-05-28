@@ -1,18 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import styles from "./LoginForm.module.css";
+
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Redirect } from "wouter";
+
 import Container from "./Container";
-import styles from "./LoginForm.module.css";
+import InvalidFormError from "./InvalidFormError";
 import { authActions } from "../store/auth-state";
-import validateRegister from "../utils/validateRegister";
-const LoginForm = () => {
+import { validateRegister, validateLogin } from "../utils/validateRegister";
+
+const LoginForm = ({ login }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [invalidForm, setInvalidForm] = useState(true);
   const nameHandler = (e) => {
     setName(e.target.value);
   };
@@ -34,11 +39,9 @@ const LoginForm = () => {
       confirmPassword,
     });
     if (!registerIsValid) {
-      console.log(false);
+      setInvalidForm(true);
       return;
     }
-    console.log(true);
-
     const response = await fetch(
       "https://salty-shore-61790.herokuapp.com/auth/register",
       {
@@ -60,17 +63,52 @@ const LoginForm = () => {
       dispatch(authActions.setIsAuthenticated(true));
     }
   };
+  const submitHandlerForLogin = async (e) => {
+    e.preventDefault();
+    const loginIsValid = validateLogin({ email, password });
+    if (!loginIsValid) return;
+
+    const response = await fetch("http://localhost:8000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setInvalidForm(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [invalidForm]);
   return (
     <>
+      {invalidForm && <InvalidFormError closeHandler={setInvalidForm} />}
       {redirect && <Redirect to="/" />}
       <Container>
-        <form className={styles.form} onSubmit={submitHandler}>
-          <div>
-            <label htmlFor="name">
-              Name: <span>*</span>
-            </label>
-            <input type="text" id="name" onChange={nameHandler} value={name} />
-          </div>
+        <form
+          className={styles.form}
+          onSubmit={!login ? submitHandler : submitHandlerForLogin}
+        >
+          {!login && (
+            <div>
+              <label htmlFor="name">
+                Name: <span>*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                onChange={nameHandler}
+                value={name}
+              />
+            </div>
+          )}
           <div>
             <label htmlFor="email">
               Email: <span>*</span>
@@ -93,20 +131,22 @@ const LoginForm = () => {
               value={password}
             />
           </div>
+          {!login && (
+            <div>
+              <label htmlFor="passwordConfirm">
+                Confirm Password: <span>*</span>
+              </label>
+              <input
+                type="password"
+                id="passwordConfirm"
+                onChange={confirmPasswordHandler}
+                value={confirmPassword}
+              />
+            </div>
+          )}
           <div>
-            <label htmlFor="passwordConfirm">
-              Confirm Password: <span>*</span>
-            </label>
-            <input
-              type="password"
-              id="passwordConfirm"
-              onChange={confirmPasswordHandler}
-              value={confirmPassword}
-            />
-          </div>
-          <div>
-            <Link href="/log-in">
-              <a>Log in instead</a>
+            <Link href={!login ? "/log-in" : "/register"}>
+              <a>{!login ? "Log in instead" : "Register"}</a>
             </Link>
             <button>Register</button>
           </div>

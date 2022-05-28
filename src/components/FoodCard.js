@@ -1,10 +1,12 @@
 import styles from "./FoodCard.module.css";
+
 import { useDispatch } from "react-redux";
+
 import { cartActions } from "../store/cart-state";
+
 const FoodCard = ({ info }) => {
   const dispatch = useDispatch();
   const addItemToCart = (item) => {
-    console.log(item);
     dispatch(cartActions.addItem(item));
   };
   return (

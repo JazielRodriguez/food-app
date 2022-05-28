@@ -1,12 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
 import styles from "./Header.module.css";
+
+import { useState } from "react";
 import { Link } from "wouter";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
+
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import Nav from "./Nav";
-import { useSelector } from "react-redux";
+
 const Header = () => {
   const isLogged = useSelector((state) => state.auth.isAuthenticated);
   const [mobileMenuIsVisible, setMobileMenuIsVisible] = useState(false);

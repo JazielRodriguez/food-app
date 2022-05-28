@@ -1,7 +1,10 @@
 import styles from "./MobileMenu.module.css";
-import Nav from "./Nav";
+
 import { ImCross } from "react-icons/im";
 import { IconContext } from "react-icons/lib";
+
+import Nav from "./Nav";
+
 const MobileMenu = ({ mobileMenuHandler, isLogged }) => {
   return (
     <div className={styles["mobile-menu"]}>

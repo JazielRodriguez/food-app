@@ -1,4 +1,4 @@
-const validateRegister = (values) => {
+export const validateRegister = (values) => {
   return (
     values.name.length > 0 &&
     values.email.includes("@") &&
@@ -6,4 +6,7 @@ const validateRegister = (values) => {
     values.password === values.confirmPassword
   );
 };
-export default validateRegister;
+
+export const validateLogin = (values) => {
+  return values.email.includes("@") && values.password.length > 6;
+};
