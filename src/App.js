@@ -6,8 +6,8 @@ import store from "./store/index";
 
 import Header from "./components/Header";
 import Loading from "./components/Loading";
-
-import HomePage from "./pages/HomePage";
+const HomePage = React.lazy(() => import("./pages/HomePage"));
+// import HomePage from "./pages/HomePage";
 const MenuPage = React.lazy(() => import("./pages/MenuPage"));
 const RegisterPage = React.lazy(() => import("./pages/RegisterPage"));
 const Cart = React.lazy(() => import("./pages/Cart"));
@@ -17,11 +17,11 @@ const LogInPage = React.lazy(() => import("./pages/LogInPage"));
 const App = () => {
   return (
     <Provider store={store}>
-      <Header />
-      <Route path="/">
-        <HomePage />
-      </Route>
       <Suspense fallback={<Loading />}>
+        <Header />
+        <Route path="/">
+          <HomePage />
+        </Route>
         <Route path="/menu">
           <MenuPage />
         </Route>
