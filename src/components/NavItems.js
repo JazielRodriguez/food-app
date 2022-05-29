@@ -19,9 +19,14 @@ const NavItems = ({ isLogged }) => {
         <a>Cart</a>
       </Link>
       {isLogged ? (
-        <Link href="/" onClick={logoutHandler}>
-          <a>Log Out</a>
-        </Link>
+        <>
+          <Link href="/profile">
+            <a>Profile</a>
+          </Link>
+          <Link href="/" onClick={logoutHandler}>
+            <a>Log Out</a>
+          </Link>
+        </>
       ) : (
         <Link href="/register">
           <a>Register</a>

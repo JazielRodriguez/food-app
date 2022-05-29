@@ -3,8 +3,8 @@ html {
   box-sizing: border-box;
 }
 body {
-  background-color: #dae6dd;
   font-family: "Barlow Condensed", sans-serif;
+  background-color: #dae6dd;
 }
 * {
   margin: 0;

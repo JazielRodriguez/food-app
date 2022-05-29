@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { Link, Redirect } from "wouter";
 
 import Container from "./Container";
+import InformationForm from "./InformationForm";
 import InvalidFormError from "./InvalidFormError";
 import { authActions } from "../store/auth-state";
 import { validateRegister, validateLogin } from "../utils/validateRegister";
@@ -17,7 +18,8 @@ const LoginForm = ({ login }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [invalidForm, setInvalidForm] = useState(true);
+  const [invalidForm, setInvalidForm] = useState(false);
+  const [informationAboutForm, setInformationAboutForm] = useState(false);
   const nameHandler = (e) => {
     setName(e.target.value);
   };
@@ -89,8 +91,14 @@ const LoginForm = ({ login }) => {
   }, [invalidForm]);
   return (
     <>
-      {invalidForm && <InvalidFormError closeHandler={setInvalidForm} />}
+      {invalidForm && (
+        <InvalidFormError
+          informationFormHandler={setInformationAboutForm}
+          closeHandler={setInvalidForm}
+        />
+      )}
       {redirect && <Redirect to="/" />}
+      {informationAboutForm && <InformationForm closeHandler={setInformationAboutForm}/>}
       <Container>
         <form
           className={styles.form}

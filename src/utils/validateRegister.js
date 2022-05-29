@@ -1,9 +1,9 @@
 export const validateRegister = (values) => {
   return (
-    values.name.length > 0 &&
+    values.name.trim().length > 0 &&
     values.email.includes("@") &&
-    values.password.length > 6 &&
-    values.password === values.confirmPassword
+    values.password.trim().length > 6 &&
+    values.password.trim() === values.confirmPassword.trim()
   );
 };
 
