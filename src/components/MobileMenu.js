@@ -14,7 +14,7 @@ const MobileMenu = ({ mobileMenuHandler, isLogged }) => {
         </IconContext.Provider>
       </div>
       <div className={styles["mobile-menu-content"]}>
-        <Nav isLogged={isLogged} />
+        <Nav isLogged={isLogged} mobileMenuHandler={mobileMenuHandler} />
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import NavItems from "./NavItems";
 
-const Nav = ({ isLogged }) => {
+const Nav = ({ isLogged, mobileMenuHandler }) => {
   return (
     <nav>
-      {!isLogged && <NavItems />}
-      {isLogged && <NavItems isLogged />}
+      {!isLogged && <NavItems mobileMenuHandler={mobileMenuHandler} />}
+      {isLogged && <NavItems isLogged mobileMenuHandler={mobileMenuHandler} />}
     </nav>
   );
 };
