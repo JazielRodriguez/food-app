@@ -8,6 +8,7 @@ const NavItems = ({ isLogged, mobileMenuHandler }) => {
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(authActions.setIsAuthenticated(false));
+    localStorage.removeItem("token");
   };
 
   return (
@@ -27,7 +28,7 @@ const NavItems = ({ isLogged, mobileMenuHandler }) => {
             href="/"
             onClick={() => {
               logoutHandler();
-              mobileMenuHandler();
+              mobileMenuHandler && mobileMenuHandler();
             }}
           >
             <a>Log Out</a>

@@ -38,21 +38,18 @@ const LoginForm = ({ login }) => {
       setInvalidForm(true);
       return;
     }
-    const response = await fetch(
-      "https://salty-shore-61790.herokuapp.com/auth/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.current.value.trim(),
-          email: email.current.value.trim(),
-          password: password.current.value.trim(),
-          confirmPassword: confirmPassword.current.value.trim(),
-        }),
-      }
-    );
+    const response = await fetch("https://salty-shore-61790.herokuapp.com/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name.current.value.trim(),
+        email: email.current.value.trim(),
+        password: password.current.value.trim(),
+        confirmPassword: confirmPassword.current.value.trim(),
+      }),
+    });
     const data = await response.json();
     if (data.ok) {
       setLocation("/log-in");
@@ -87,13 +84,14 @@ const LoginForm = ({ login }) => {
     );
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (data.loginStatus.ok) {
       dispatch(authActions.setIsAuthenticated(true));
       dispatch(userInfoActions.setUserInfo(data.userInfo));
+      localStorage.setItem("token", data.accessToken);
       setLocation("/");
       return;
     }
-    alert(data.message);
+    alert(data.loginStatus.message);
   };
   useEffect(() => {
     const timer = setTimeout(() => {
