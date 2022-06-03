@@ -1,44 +1,38 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import styles from "./LoginForm.module.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, Redirect } from "wouter";
+import { Link } from "wouter";
+import useLocation from "wouter/use-location";
 
+import RegisterAdvice from "./RegisterAdvice";
 import Container from "./Container";
 import InformationForm from "./InformationForm";
 import InvalidFormError from "./InvalidFormError";
 import { authActions } from "../store/auth-state";
 import { validateRegister, validateLogin } from "../utils/validateRegister";
+import { userInfoActions } from "../store/user-state";
 
 const LoginForm = ({ login }) => {
+  // eslint-disable-next-line
+  const [location, setLocation] = useLocation();
+  const name = useRef();
+  const email = useRef();
+  const password = useRef();
+  const confirmPassword = useRef();
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
+  const [registerSuccess, setRegisterSuccess] = useState(false);
   const [invalidForm, setInvalidForm] = useState(false);
   const [informationAboutForm, setInformationAboutForm] = useState(false);
-  const nameHandler = (e) => {
-    setName(e.target.value);
-  };
-  const emailHandler = (e) => {
-    setEmail(e.target.value);
-  };
-  const passwordHandler = (e) => {
-    setPassword(e.target.value);
-  };
-  const confirmPasswordHandler = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const registerIsValid = validateRegister({
-      name,
-      email,
-      password,
-      confirmPassword,
+      name: name.current.value,
+      email: email.current.value,
+      password: password.current.value,
+      confirmPassword: confirmPassword.current.value,
     });
     if (!registerIsValid) {
       setInvalidForm(true);
@@ -52,36 +46,54 @@ const LoginForm = ({ login }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
-          email,
-          password,
-          confirmPassword,
+          name: name.current.value.trim(),
+          email: email.current.value.trim(),
+          password: password.current.value.trim(),
+          confirmPassword: confirmPassword.current.value.trim(),
         }),
       }
     );
     const data = await response.json();
     if (data.ok) {
-      setRedirect(true);
-      dispatch(authActions.setIsAuthenticated(true));
+      setLocation("/log-in");
+      setRegisterSuccess(true);
+      return;
     }
+    alert(data.message);
   };
   const submitHandlerForLogin = async (e) => {
     e.preventDefault();
-    const loginIsValid = validateLogin({ email, password });
-    if (!loginIsValid) return;
-
-    const response = await fetch("http://localhost:8000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+    const loginIsValid = validateLogin({
+      email: email.current.value.trim(),
+      password: password.current.value.trim(),
     });
+    if (!loginIsValid) {
+      setInvalidForm(true);
+      return;
+    }
+
+    const response = await fetch(
+      "https://salty-shore-61790.herokuapp.com/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.current.value.trim(),
+          password: password.current.value.trim(),
+        }),
+      }
+    );
     const data = await response.json();
     console.log(data);
+    if (data.ok) {
+      dispatch(authActions.setIsAuthenticated(true));
+      dispatch(userInfoActions.setUserInfo(data.userInfo));
+      setLocation("/");
+      return;
+    }
+    alert(data.message);
   };
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -97,8 +109,11 @@ const LoginForm = ({ login }) => {
           closeHandler={setInvalidForm}
         />
       )}
-      {redirect && <Redirect to="/" />}
-      {informationAboutForm && <InformationForm closeHandler={setInformationAboutForm}/>}
+      {informationAboutForm && (
+        <InformationForm closeHandler={setInformationAboutForm} />
+      )}
+
+      {registerSuccess && <RegisterAdvice message={"Yeah"} />}
       <Container>
         <form
           className={styles.form}
@@ -109,35 +124,20 @@ const LoginForm = ({ login }) => {
               <label htmlFor="name">
                 Name: <span>*</span>
               </label>
-              <input
-                type="text"
-                id="name"
-                onChange={nameHandler}
-                value={name}
-              />
+              <input type="text" id="name" ref={name} />
             </div>
           )}
           <div>
             <label htmlFor="email">
               Email: <span>*</span>
             </label>
-            <input
-              type="email"
-              id="email"
-              onChange={emailHandler}
-              value={email}
-            />
+            <input type="email" id="email" ref={email} />
           </div>
           <div>
             <label htmlFor="password">
               Password: <span>*</span>
             </label>
-            <input
-              type="password"
-              id="password"
-              onChange={passwordHandler}
-              value={password}
-            />
+            <input type="password" id="password" ref={password} />
           </div>
           {!login && (
             <div>
@@ -147,8 +147,7 @@ const LoginForm = ({ login }) => {
               <input
                 type="password"
                 id="passwordConfirm"
-                onChange={confirmPasswordHandler}
-                value={confirmPassword}
+                ref={confirmPassword}
               />
             </div>
           )}

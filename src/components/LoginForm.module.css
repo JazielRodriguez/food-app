@@ -32,6 +32,7 @@
   background-color: transparent;
   border: 0.1rem solid #000;
   font-family: "Barlow Condensed", sans-serif;
+  cursor: pointer;
 }
 @media (max-width: 480px) {
   .form button {

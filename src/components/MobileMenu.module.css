@@ -20,6 +20,12 @@
   align-items: center;
   padding: 2rem;
 }
+.mobile-menu-content nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
 .mobile-menu-btn {
   position: fixed;
   top: 2rem;

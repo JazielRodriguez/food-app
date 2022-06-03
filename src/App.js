@@ -6,8 +6,8 @@ import store from "./store/index";
 
 import Header from "./components/Header";
 import Loading from "./components/Loading";
+import ProfilePage from "./pages/ProfilePage";
 const HomePage = React.lazy(() => import("./pages/HomePage"));
-// import HomePage from "./pages/HomePage";
 const MenuPage = React.lazy(() => import("./pages/MenuPage"));
 const RegisterPage = React.lazy(() => import("./pages/RegisterPage"));
 const Cart = React.lazy(() => import("./pages/Cart"));
@@ -36,6 +36,9 @@ const App = () => {
         </Route>
         <Route path="/admin/new-food">
           <NewFood />
+        </Route>
+        <Route path="/profile">
+          <ProfilePage />
         </Route>
       </Suspense>
     </Provider>
