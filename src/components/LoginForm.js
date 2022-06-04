@@ -12,7 +12,6 @@ import InformationForm from "./InformationForm";
 import InvalidFormError from "./InvalidFormError";
 import { authActions } from "../store/auth-state";
 import { validateRegister, validateLogin } from "../utils/validateRegister";
-import { userInfoActions } from "../store/user-state";
 
 const LoginForm = ({ login }) => {
   // eslint-disable-next-line
@@ -38,18 +37,21 @@ const LoginForm = ({ login }) => {
       setInvalidForm(true);
       return;
     }
-    const response = await fetch("https://salty-shore-61790.herokuapp.com/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name.current.value.trim(),
-        email: email.current.value.trim(),
-        password: password.current.value.trim(),
-        confirmPassword: confirmPassword.current.value.trim(),
-      }),
-    });
+    const response = await fetch(
+      "https://salty-shore-61790.herokuapp.com/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.current.value.trim(),
+          email: email.current.value.trim(),
+          password: password.current.value.trim(),
+          confirmPassword: confirmPassword.current.value.trim(),
+        }),
+      }
+    );
     const data = await response.json();
     if (data.ok) {
       setLocation("/log-in");
@@ -83,10 +85,9 @@ const LoginForm = ({ login }) => {
       }
     );
     const data = await response.json();
-    console.log(data);
     if (data.loginStatus.ok) {
       dispatch(authActions.setIsAuthenticated(true));
-      dispatch(userInfoActions.setUserInfo(data.userInfo));
+      localStorage.setItem("userInfo", JSON.stringify(data.userInfo));
       localStorage.setItem("token", data.accessToken);
       setLocation("/");
       return;
