@@ -1,40 +1,29 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Redirect } from "wouter";
-
+import { useState, useEffect } from "react";
+import OrderCard from "../components/OrderCard";
 const Orders = () => {
-  const isLogged = useSelector((state) => state.auth.isAuthenticated);
+  const [orders, setOrders] = useState([]);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const isAdmin = userInfo.isAdmin;
-  const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const getAllOrders = async () => {
-      const response = await fetch(
-        "https://salty-shore-61790.herokuapp.com/food/orders",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+    const getYourOrders = async () => {
+      const response = await fetch("http://localhost:8000/food/orders", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = await response.json();
-      setOrders(data);
+      const userEmail = JSON.parse(localStorage.getItem("userInfo")).email;
+      const orders = data.filter((order) => order.email === userEmail);
+      setOrders(orders);
     };
-    getAllOrders();
+    getYourOrders();
   }, []);
-
-  if (!isLogged) {
-    return <Redirect to="/log-in" />;
-  }
-  if (!isAdmin) {
-    return <p>you aren't a admin</p>;
-  }
-
+  console.log(orders);
   return (
     <>
-      <p>Orders</p>
+      <h1>orders page</h1>
       {orders.map((order) => (
-        <h1 key={order._id}>{order._id}</h1>
+        <OrderCard order={order} isAdmin={isAdmin} key={order._id}/>
       ))}
     </>
   );

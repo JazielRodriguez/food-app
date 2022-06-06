@@ -7,6 +7,7 @@ import store from "./store/index";
 import Header from "./components/Header";
 import Loading from "./components/Loading";
 import ProfilePage from "./pages/ProfilePage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 import Orders from "./pages/Orders";
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const MenuPage = React.lazy(() => import("./pages/MenuPage"));
@@ -42,6 +43,9 @@ const App = () => {
           <ProfilePage />
         </Route>
         <Route path="/admin/orders">
+          <AdminOrdersPage />
+        </Route>
+        <Route path='/orders'>
           <Orders />
         </Route>
       </Suspense>

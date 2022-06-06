@@ -9,6 +9,7 @@ const NavItems = ({ isLogged, mobileMenuHandler }) => {
   const logoutHandler = () => {
     dispatch(authActions.setIsAuthenticated(false));
     localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
   };
 
   return (

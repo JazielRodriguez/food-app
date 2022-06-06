@@ -16,13 +16,14 @@ const Cart = () => {
   };
   const orderHandler = async () => {
     if (cart && cart.length > 0) {
-      const response = await fetch("https://salty-shore-61790.herokuapp.com/food/new-order", {
+      const response = await fetch("http://localhost:8000/food/new-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
+          userInfo: localStorage.getItem("userInfo"),
           cartItems: cart,
         }),
       });
