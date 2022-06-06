@@ -1,8 +1,10 @@
 import styles from "./FoodForm.module.css";
 
 import { useRef } from "react";
-
+import { useLocation } from "wouter";
 const FoodForm = () => {
+  // eslint-disable-next-line
+  const [location, setLocation] = useLocation();
   const name = useRef();
   const price = useRef();
   const image = useRef();
@@ -26,6 +28,10 @@ const FoodForm = () => {
     );
     const data = await response.json();
     console.log(data);
+    if (data.ok) {
+      alert("Food inserted successfully");
+      setLocation("/");
+    }
   };
   return (
     <form className={styles.form} onSubmit={submitHandler}>
@@ -42,7 +48,7 @@ const FoodForm = () => {
         <input type="text" id="image" ref={image} />
       </div>
       <div>
-        <button>Submit</button>
+        <button style={{ cursor: "pointer" }}>Submit</button>
       </div>
     </form>
   );
