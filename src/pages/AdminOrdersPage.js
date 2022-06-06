@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Container from "../components/Container";
 import { useSelector } from "react-redux";
 import { Redirect } from "wouter";
 import OrderAdminCard from "../components/OrderAdminCard";
@@ -10,11 +11,14 @@ const AdminOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     const getAllOrders = async () => {
-      const response = await fetch("http://localhost:8000/food/orders", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        "https://salty-shore-61790.herokuapp.com/food/orders",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await response.json();
       setOrders(data);
     };
@@ -24,26 +28,28 @@ const AdminOrdersPage = () => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
-
+  let content;
   if (!isLogged) {
-    return <Redirect to="/log-in" />;
+    content = <Redirect to="/log-in" />;
   }
   if (!isAdmin) {
-    return <p>you aren't a admin</p>;
+    content = <p>you aren't a admin</p>;
   }
   if (!isDesktopOrLaptop) {
-    return (
-      <div>
-        <p>This page is only available in the desktop site</p>
-      </div>
-    );
+    content = <p>This page is only available in the desktop site</p>;
+  }
+  if (orders.length === 0) {
+    content = <p>No orders yet</p>;
   }
   return (
     <>
-      <p>Orders</p>
-      {orders.map((order) => (
-        <OrderAdminCard key={order._id} order={order} />
-      ))}
+      <Container>
+        {content}
+        {orders.length > 0 &&
+          orders.map((order) => (
+            <OrderAdminCard key={order._id} order={order} />
+          ))}
+      </Container>
     </>
   );
 };

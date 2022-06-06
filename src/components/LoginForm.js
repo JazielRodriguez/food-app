@@ -38,7 +38,7 @@ const LoginForm = ({ login }) => {
       return;
     }
     const response = await fetch(
-      "http://localhost:8000/auth/register",
+      "https://salty-shore-61790.herokuapp.com/auth/register",
       {
         method: "POST",
         headers: {
@@ -72,7 +72,7 @@ const LoginForm = ({ login }) => {
     }
 
     const response = await fetch(
-      "http://localhost:8000/auth/login",
+      "https://salty-shore-61790.herokuapp.com/auth/login",
       {
         method: "POST",
         headers: {

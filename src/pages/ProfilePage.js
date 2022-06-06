@@ -18,6 +18,8 @@ const ProfilePage = () => {
         <>
           <p>You're super admin too</p>
           <Link to="/admin/orders">View all admin orders</Link>
+          <br />
+          <Link to="/admin/new-food"> add new food</Link>
         </>
       )}
       <br />

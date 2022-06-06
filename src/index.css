@@ -43,3 +43,12 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.order-btn {
+  padding: 2rem;
+  background: #adc5b3;
+  margin: 1.6rem 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

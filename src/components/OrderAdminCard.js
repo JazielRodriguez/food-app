@@ -4,17 +4,20 @@ import { useState } from "react";
 const OrderAdminCard = ({ order }) => {
   const [orderIsCompleted, setOrderIsCompleted] = useState(order.isCompleted);
   const completeHandler = async () => {
-    const response = await fetch(`http://localhost:8000/food/update-order`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({
-        orderId: order._id,
-        isCompleted: true,
-      }),
-    });
+    const response = await fetch(
+      `https://salty-shore-61790.herokuapp.com/food/update-order`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          orderId: order._id,
+          isCompleted: true,
+        }),
+      }
+    );
     const data = await response.json();
     if (data.ok) {
       setOrderIsCompleted(true);
@@ -39,7 +42,9 @@ const OrderAdminCard = ({ order }) => {
       </div>
       <div>
         {!orderIsCompleted && (
-          <button onClick={completeHandler}>Mark as completed</button>
+          <button onClick={completeHandler} className="order-btn">
+            Mark as completed
+          </button>
         )}
         <p>Status: {orderIsCompleted ? "Completed" : "Not Completed"}</p>
       </div>

@@ -1,71 +1,45 @@
 import styles from "./FoodForm.module.css";
 
-import { useState } from "react";
-import axios from "axios";
+import { useRef } from "react";
 
 const FoodForm = () => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState();
-  const nameHandler = (e) => {
-    setName(e.target.value);
-  };
-  const priceHandler = (e) => {
-    setPrice(e.target.value);
-  };
-  const descriptionHandler = (e) => {
-    setDescription(e.target.value);
-  };
-  const imageHandler = (e) => {
-    setImage(e.target.files[0]);
-  };
+  const name = useRef();
+  const price = useRef();
+  const image = useRef();
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(image);
-    const formData = new FormData();
-    formData.append("image", image);
-
     const newFood = {
-      name,
-      description,
-      price,
-      formData,
+      name: name.current.value.trim(),
+      price: price.current.value.trim(),
+      image: image.current.value.trim(),
     };
-    console.log(newFood);
-    const response = await axios.post(
-      "http://localhost:8000/admin/new-food",
-      formData,
+    const response = await fetch(
+      "https://salty-shore-61790.herokuapp.com/food/new-food",
       {
+        method: "POST",
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
+        body: JSON.stringify(newFood),
       }
     );
-    console.log(response);
+    const data = await response.json();
+    console.log(data);
   };
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <div>
         <label htmlFor="name">Name</label>
-        <input type="text" id="name" value={name} onChange={nameHandler} />
+        <input type="text" id="name" ref={name} />
       </div>
       <div>
         <label htmlFor="price">Price</label>
-        <input type="text" id="price" value={price} onChange={priceHandler} />
+        <input type="number" id="price" ref={price} />
       </div>
       <div>
-        <label htmlFor="description">Description</label>
-        <input
-          type="text"
-          id="description"
-          value={description}
-          onChange={descriptionHandler}
-        />
-      </div>
-      <div>
-        <label htmlFor="image">Image</label>
-        <input type="file" id="image" onChange={imageHandler} />
+        <label htmlFor="image">URL image</label>
+        <input type="text" id="image" ref={image} />
       </div>
       <div>
         <button>Submit</button>
