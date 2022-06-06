@@ -21,7 +21,6 @@ const Orders = () => {
   console.log(orders);
   return (
     <>
-      <h1>orders page</h1>
       {orders.map((order) => (
         <OrderCard order={order} isAdmin={isAdmin} key={order._id}/>
       ))}

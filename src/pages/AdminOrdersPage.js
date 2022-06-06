@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "wouter";
-import OrderCard from "../components/OrderCard";
+import OrderAdminCard from "../components/OrderAdminCard";
 import { useMediaQuery } from "react-responsive";
 const AdminOrdersPage = () => {
   const isLogged = useSelector((state) => state.auth.isAuthenticated);
@@ -42,7 +42,7 @@ const AdminOrdersPage = () => {
     <>
       <p>Orders</p>
       {orders.map((order) => (
-        <OrderCard key={order._id} order={order} />
+        <OrderAdminCard key={order._id} order={order} />
       ))}
     </>
   );

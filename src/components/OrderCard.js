@@ -1,13 +1,10 @@
 import styles from "./OrderCart.module.css";
 import Container from "./Container";
-const OrderCard = ({ order, isAdmin }) => {
+
+const OrderAdminCard = ({ order }) => {
   return (
     <Container className={styles["order-card"]}>
-      {isAdmin ? (
-        <h2>Order by: {order.name}</h2>
-        ) : (
-        <h2>Order of: {order.date}</h2>
-      )}
+      <h2>Order of: {order.date}</h2>
       <div className={styles["order-items"]}>
         {order.cartItems.map((cartItem) => (
           <div key={cartItem.id} className={styles["order-item"]}>
@@ -22,9 +19,10 @@ const OrderCard = ({ order, isAdmin }) => {
           </div>
         ))}
       </div>
-      <div>{isAdmin && <button>Mark as completed</button>}</div>
-      <p>{order.isCompleted ? "Completed" : "Not completed"}</p>
+      <div>
+        <p>Status: {order.isCompleted ? "Completed" : "Not Completed"}</p>
+      </div>
     </Container>
   );
 };
-export default OrderCard;
+export default OrderAdminCard;
