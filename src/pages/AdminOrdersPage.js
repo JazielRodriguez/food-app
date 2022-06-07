@@ -3,12 +3,14 @@ import Container from "../components/Container";
 import { useSelector } from "react-redux";
 import { Redirect } from "wouter";
 import OrderAdminCard from "../components/OrderAdminCard";
+import Loading from "../components/Loading";
 import { useMediaQuery } from "react-responsive";
 const AdminOrdersPage = () => {
   const isLogged = useSelector((state) => state.auth.isAuthenticated);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const isAdmin = userInfo.isAdmin;
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getAllOrders = async () => {
       const response = await fetch(
@@ -20,6 +22,7 @@ const AdminOrdersPage = () => {
         }
       );
       const data = await response.json();
+      setIsLoading(false);
       setOrders(data);
     };
     getAllOrders();
@@ -28,23 +31,20 @@ const AdminOrdersPage = () => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
-  let content;
   if (!isLogged) {
-    content = <Redirect to="/log-in" />;
+    return <Redirect to="/log-in" />;
   }
   if (!isAdmin) {
-    content = <p>you aren't a admin</p>;
+    return <p>you aren't a admin</p>;
   }
   if (!isDesktopOrLaptop) {
-    content = <p>This page is only available in the desktop site</p>;
-  }
-  if (orders.length === 0) {
-    content = <p>No orders yet</p>;
+    return <p>This page is only available in the desktop site</p>;
   }
   return (
     <>
       <Container>
-        {content}
+        {isLoading && <Loading />}
+        {orders.length === 0 && !isLoading && <p>No orders yet</p>}
         {orders.length > 0 &&
           orders.map((order) => (
             <OrderAdminCard key={order._id} order={order} />

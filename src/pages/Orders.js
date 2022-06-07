@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import Container from "../components/Container";
+import Loading from "../components/Loading";
 import OrderCard from "../components/OrderCard";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [Loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const isAdmin = userInfo.isAdmin;
   useEffect(() => {
@@ -27,12 +28,8 @@ const Orders = () => {
   console.log(orders);
   return (
     <>
-      {Loading && (
-        <Container>
-          <h1>Loading...</h1>
-        </Container>
-      )}
-      {orders.length === 0 && !Loading ? (
+      {loading && <Loading />}
+      {orders.length === 0 && !loading ? (
         <Container>
           <h1>You don't have any orders yet</h1>
         </Container>
