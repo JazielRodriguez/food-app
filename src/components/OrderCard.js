@@ -4,7 +4,7 @@ import Container from "./Container";
 const OrderAdminCard = ({ order }) => {
   return (
     <Container className={styles["order-card"]}>
-      <h2>Order of: {order.date}</h2>
+      <h2 style={{ marginBottom: ".5rem" }}>Order of: {order.date}</h2>
       <div className={styles["order-items"]}>
         {order.cartItems.map((cartItem) => (
           <div key={cartItem.id} className={styles["order-item"]}>
@@ -20,7 +20,10 @@ const OrderAdminCard = ({ order }) => {
         ))}
       </div>
       <div>
-        <p>Status: {order.isCompleted ? "Completed" : "Not Completed"}</p>
+        <p style={{ marginTop: ".5rem" }}>
+          <strong>Status:</strong>{" "}
+          {order.isCompleted ? "Completed" : "Not Completed"}
+        </p>
       </div>
     </Container>
   );

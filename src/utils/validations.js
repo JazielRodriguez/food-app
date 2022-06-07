@@ -10,3 +10,9 @@ export const validateRegister = (values) => {
 export const validateLogin = (values) => {
   return values.email.includes("@") && values.password.length > 6;
 };
+
+export const validateFood = (values) => {
+  return (
+    values.name.trim().length > 0 && values.price > 0 && values.image.length > 0
+  );
+};

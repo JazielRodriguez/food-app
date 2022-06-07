@@ -25,7 +25,7 @@ const OrderAdminCard = ({ order }) => {
   };
   return (
     <Container className={styles["order-card"]}>
-      <h2>Order by: {order.name}</h2>
+      <h2 style={{ marginBottom: ".5rem" }}>Order by: {order.name}</h2>
       <div className={styles["order-items"]}>
         {order.cartItems.map((cartItem) => (
           <div key={cartItem.id} className={styles["order-item"]}>
@@ -42,11 +42,18 @@ const OrderAdminCard = ({ order }) => {
       </div>
       <div>
         {!orderIsCompleted && (
-          <button onClick={completeHandler} className="order-btn">
+          <button
+            onClick={completeHandler}
+            className="order-btn"
+            style={{ marginLeft: 0, background: "#dae6dd" }}
+          >
             Mark as completed
           </button>
         )}
-        <p>Status: {orderIsCompleted ? "Completed" : "Not Completed"}</p>
+        <p style={{ marginTop: ".5rem" }}>
+          <strong>Status:</strong>{" "}
+          {orderIsCompleted ? "Completed" : "Not Completed"}
+        </p>
       </div>
     </Container>
   );

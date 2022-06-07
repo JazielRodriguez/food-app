@@ -13,17 +13,25 @@ const ProfilePage = () => {
   return (
     <Container>
       <h1>Profile of {userInfo.name}</h1>
-      {userInfo.isAdmin && <p>You're admin</p>}
       {userInfo.isSuperAdmin && (
         <>
-          <p>You're super admin too</p>
-          <Link to="/admin/orders">View all admin orders</Link>
-          <br />
-          <Link to="/admin/new-food"> add new food</Link>
+          <Link to="/admin/orders">
+            <div className="order-btn">
+              <p>View all admin orders</p>
+            </div>
+          </Link>
+          <Link to="/admin/new-food">
+            <div className="order-btn">
+              <p> Add new food</p>
+            </div>
+          </Link>
         </>
       )}
-      <br />
-      <Link to="/orders">View Orders</Link>
+      <Link to="/orders">
+        <div className="order-btn">
+          <p>View Orders</p>
+        </div>
+      </Link>
     </Container>
   );
 };

@@ -42,7 +42,9 @@ const Cart = () => {
     content = (
       <div>
         <h1>Your Cart</h1>
-        <p onClick={deleteCartItemsHandler}>Delete all your cart items</p>
+        <p onClick={deleteCartItemsHandler} className="order-btn" style={{width:'fit-content'}}>
+          Delete all your cart items
+        </p>
       </div>
     );
   }

@@ -11,7 +11,7 @@ import Container from "./Container";
 import InformationForm from "./InformationForm";
 import InvalidFormError from "./InvalidFormError";
 import { authActions } from "../store/auth-state";
-import { validateRegister, validateLogin } from "../utils/validateRegister";
+import { validateRegister, validateLogin } from "../utils/validations";
 
 const LoginForm = ({ login }) => {
   // eslint-disable-next-line
